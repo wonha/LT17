@@ -25,6 +25,7 @@ __Purely λ programming__
 +++
 @title[Sample for First-class function]
 
+__First-class function__
 ```haskell
 applyTwice :: (a -> a) -> a -> a
 applyTwie f x = f (f x)
@@ -57,7 +58,7 @@ f(f(x))
 f a b c = a * b + c
 f a b = \ c -> a * b + c
 ```
-@[2](f returns closure)
+@[2]('f' returns closure)
 
 ---
 __λ style programming__
@@ -67,7 +68,7 @@ __λ style programming__
 
 - Closure
 - Anonymous function
-- Anonymous Class
+- Anonymous class
 - Lambda
 
 +++
@@ -90,4 +91,5 @@ print $from_three->();  # 4
 @[2](Variable '$start' is the free variable)
 @[3](This function \(subroutine\) is the closure)
 @[6-7](Free variavble '$start' is created 2 times)
+@[9-12]
 
