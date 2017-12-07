@@ -14,7 +14,7 @@ __(λ style programming)__
 - λ style programming with Multitasking |
 
 ---
-## Purely λ programming
+__Purely λ programming__
 
 ---
 @title[Purely λ programming]
@@ -60,7 +60,7 @@ f a b = \ c -> a * b + c
 @[2](f returns closure)
 
 ---
-## λ style programming
+__λ style programming__
 
 ---
 @title[λ style programming]

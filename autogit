@@ -1,5 +1,5 @@
 #!/bin/bash
 git add --all
-git commit -am 'Updating'
+git commit -am 'Updating functional_style'
 git pull
 git push
