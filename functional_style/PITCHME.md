@@ -16,7 +16,7 @@ __(λ style programming)__
 ---
 __Purely λ programming__
 
----
++++
 @title[Purely λ programming]
 
 - Higher-order function
@@ -62,7 +62,7 @@ f a b = \ c -> a * b + c
 ---
 __λ style programming__
 
----
++++
 @title[λ style programming]
 
 - Closure
