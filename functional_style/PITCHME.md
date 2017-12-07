@@ -1,6 +1,6 @@
 @title[Introduction]
-__Functional style programming__
-__(λ Programming)__
+__Functional style programming__<br />
+__(λ style programming)__
 
 ---
 @title[Agenda]
