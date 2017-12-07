@@ -10,14 +10,17 @@ __(λ style programming)__
 - Multitasking |
     - Concurrency & Parallelism
     - Synchronous & Asynchronous
-    - Blocking & Non-blocking |
+    - Blocking & Non-blocking
 - λ style programming with Multitasking |
+
+---
+## Purely λ programming
 
 ---
 @title[Purely λ programming]
 
-- Higher-order function |
-- First-class function
+- Higher-order function
+- First-class function |
 
 +++
 @title[Sample for First-class function]
@@ -28,7 +31,9 @@ applyTwie f x = f (f x)
 ```
 @[2](Takes function as an argument)
 
-- Didn't validate yet
++++
+@title[Sample for First-class function 2]
+<!--Didn't validate yet -->
 ```
 ghci> applyTwice (+10) 10
 30
@@ -53,6 +58,9 @@ f a b c = a * b + c
 f a b = \ c -> a * b + c
 ```
 @[2](f returns closure)
+
+---
+## λ style programming
 
 ---
 @title[λ style programming]
