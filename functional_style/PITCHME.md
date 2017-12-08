@@ -3,28 +3,30 @@ __Functional style programming__<br />
 __(λ style programming)__
 
 ---
-See this slides from [online repo](https://gitpitch.com/wonha/LT17/master?p=functional_style/)
+See this slides from [online repo](https://gitpitch.com/wonha/LT17/master?p=functional_style/) !
 ![Octocat](https://d1z75bzl1vljy2.cloudfront.net/kitchen-sink/octocat-daftpunkocat.gif)
 
 ---
 @title[Agenda]
 
 - Purely λ programming
-- (purely) λ language VS λ style VS imperative style |
+- Purely λ & λ style VS Imperative style |
 - λ style programming |
 - Multitasking |
     - Concurrency & Parallelism
     - Synchronous & Asynchronous
     - Blocking & Non-blocking
 - λ style programming with Multitasking |
+    - Concurrency & Parallelism
+    - Synchronous & Asynchronous
+    - Blocking & Non-blocking
 
 ---
-__Purely λ programming__
-
-+++
 @title[Purely λ programming]
 
-- First-class function
+__Purely λ programming__
+
+- First-class function |
 <!-- the language treats function as value(variable) -->
 <!-- not all the languages that support first class function is purely functional programming language e.g. JavaScript, Lisp-->
 - Higher-order function |
@@ -61,6 +63,8 @@ f(f(x))
 +++
 @title[Purely λ programming 2]
 
+__Purely λ programming__
+
 - First-class function
 - Higher-order function
 - Closure |
@@ -83,10 +87,12 @@ f a b c = a * b + c
 f a b = \ c -> a * b + c
 ```
 @[2]('f' returns closure)
-@[2](both 'a' and 'b' is a free variable)
+@[2](both 'a' and 'b' are free variable)
 
 +++
 @title[Purely λ programming 3]
+
+__Purely λ programming__
 
 - First-class function
 - Higher-order function
@@ -102,6 +108,8 @@ f a b = \ c -> a * b + c
 
 +++
 @title[Purely λ programming 4]
+
+__Purely λ programming__
 
 - First-class function
 - Higher-order function
@@ -122,16 +130,16 @@ __(purely) λ language VS λ style VS imperative style__
 
 +++
 @title[Quick sort logic comparison]
-__Quick sort logic comparison__
+__Quick sort logic comparison__<br/>
 @fa[arrow-down]
 
-+++?code=./assets/qsort.py&lang=python&title=Imperative style with Python
++++?code=./functional_style/assets/qsort.py&lang=python&title=Imperative style with Python
 @[](Variables to persist program status, and flow control statement depends on these variables)
 
-+++?code=./assets/qsort.hs&lang=haskell&title=Purely λ with Haskell
++++?code=./functional_style/assets/qsort.hs&lang=haskell&title=Purely λ with Haskell
 @[](Declaration and Recursion instead of variable and flow control)
 
-+++?code=./assets/qsort.scala&lang=scala&title=λ style with Scala
++++?code=./functional_style/assets/qsort.scala&lang=scala&title=λ style with Scala
 @[](Declaration without low control, but varables exist)
 
 +++?code=./assets/qsort.kt&lang=kotlin&title=λ style with Kotlin
