@@ -219,6 +219,12 @@ end of year party !
 @[5]
 @[5-7]
 
++++
+@title[]
+
+__Declaration on Reactive Programming__<br/>
+[marble diagram](http://reactivex.io/RxJava/2.x/javadoc/)
+
 
 ---
 @title[Multitasking]
@@ -248,7 +254,12 @@ google image
 @title[Solution for callback hell]
 
 Callbackhell with Reactive programming<br/>
+Introduce λ style programming (declarative way, less side effect) to reactive programming
 Functional Reactive Programming (FRP) !
+- ReactiveStreams
+- ReactiveX (RxJava, RxJs, ...)
+- ProjectReactor
+- Java 9 Flow API |
 
 ---
 @title[λ style programming with Multitasking]
