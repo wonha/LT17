@@ -3,7 +3,7 @@ __Functional style programming__<br />
 __(λ style programming)__
 
 ---
-See this slides from [online repo](https://gitpitch.com/wonha/LT17/master?p=functional_style/) !
+See this slides from [online repo](https://gitpitch.com/wonha/lighting-talk-17/master?p=functional_style/) !
 ![Octocat](https://d1z75bzl1vljy2.cloudfront.net/kitchen-sink/octocat-daftpunkocat.gif)
 
 ---
