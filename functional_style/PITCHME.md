@@ -3,6 +3,9 @@ __Functional style programming__<br />
 __(λ style programming)__
 
 ---
+See this slides from [online repo](https://gitpitch.com/wonha/lt-2017/master?p=functional_style/)
+
+---
 @title[Agenda]
 
 - Purely λ programming
