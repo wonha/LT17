@@ -17,6 +17,7 @@ See this slides from [online repo](https://gitpitch.com/wonha/LT17/master?p=func
     - Synchronous & Asynchronous
     - Blocking & Non-blocking
 - λ style programming with Multitasking |
+    - Pipelining
     - Concurrency & Parallelism
     - Synchronous & Asynchronous
     - Blocking & Non-blocking
@@ -30,7 +31,7 @@ __Purely λ programming__
 <!-- the language treats function as value(variable) -->
 <!-- not all the languages that support first class function is purely functional programming language e.g. JavaScript, Lisp-->
 - Higher-order function |
-<!-- function that work on other functions -->
+<!-- function that work on other functions (Either takes function as an argument or return function -->
 
 +++
 @title[Sample for Higher-order function]
@@ -121,8 +122,13 @@ __Purely λ programming__
     - No I/O
 - Referential transparency |
 <!-- Research definition of REferential transparency -->
-<!-- Java method that returns List -->
+<!-- Java method that returns List (List<Customer> findAll(String id))-->
 <!-- Tail call-->
+
++++
+@title[Topics about FP]
+
+There are lots of [other topics](https://en.wikipedia.org/wiki/List_of_functional_programming_topics)
 
 ---
 @title[Implementation comparison]
@@ -148,8 +154,13 @@ __Quick sort logic comparison__<br/>
 
 +++?code=./functional_style/assets/qsort2.py&lang=perl&title=λ style with Python
 
-+++?code=./functional_style/assets/.pl&lang=perl&title=λ style with Perl
-+++?code=./functional_style/assets/.pl&lang=perl&title=λ style with Perl
++++?code=./functional_style/assets/qsort.lua&lang=lua&title=Imperative style with Coffee
++++?code=./functional_style/assets/qsort.lua&lang=lua&title=Imperative style with Lua
++++?code=./functional_style/assets/qsort.curry&lang=curry&title=Purely λ with Curry
++++?code=./functional_style/assets/qsort.hs&lang=haskell&title=Purely λ with Haskell
++++?code=./functional_style/assets/qsort.prolog&lang=prolog&title=Purely λ with Prolog
++++?code=./functional_style/assets/qsort.apl&lang=apl&title=Purely λ with APL
+@[]([http://tryapl.org](http://tryapl.org/)
 
 ---
 @title[λ style programming]
@@ -159,9 +170,7 @@ __λ style programming__
 @title[λ style programming]
 
 - Closure
-- Anonymous function
-- Anonymous class
-- Lambda
+    - free variable (mutable data)
 
 +++
 @title[Sample for Closure in λ style]
@@ -185,17 +194,48 @@ print $from_three->();  # 4
 @[6-7](Free variavble '$start' is created 2 times)
 @[9-12]
 
++++
+@title[λ style programming 2]
+
+- Closure
+- Anonymous function |
+- Anonymous class |
+- Lambda |
+
++++
+@title[]
+
+__Declaration of Unix command__
+```bash
+$ cat hello.md
+Welcome to LT17
+Annyonghaseyo
+End of year party !
+$ cat hello.md | tr "[A-Z]" "[a-z]" | sort | head -2
+annyonghaseyo
+end of year party !
+```
+@[1-4]
+@[5]
+@[5-7]
+
+
 ---
 @title[Multitasking]
 
 +++
 @title[Concurrency & Parallelism]
+data pallelism / task
+jenkov
+google image
 
 +++
 @title[Synchronous & Asynchronous]
+Servlet figure
 
 +++
 @title[Blocking & Non-blocking]
+google image
 
 +++?code=./functional_style/assets/ReactiveStreamsCallbackHell.java&lang=java&title=Callback hell 1
 @[](Without declarative style of λ programming, callback hell is unavoidable)
@@ -204,14 +244,27 @@ print $from_three->();  # 4
 @title[Callback hell 2]
 [Callbackhell.com](callbackhell.com)
 
++++
+@title[Solution for callback hell]
+
+Callbackhell with Reactive programming<br/>
+Functional Reactive Programming (FRP) !
+
 ---
 @title[λ style programming with Multitasking]
 
+- Declarative way |
+- Reduce Side effeuct |
+
 +++
 @title[Concurrency & Parallelism]
+Reactor/Spring sample
+Concurrent Unix command
 
 +++
 @title[Synchronous & Asynchronous]
+Future sample
 
 +++
 @title[Blocking & Non-blocking]
+Reactor/Spring sample
