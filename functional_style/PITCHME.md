@@ -142,14 +142,14 @@ __Quick sort logic comparison__<br/>
 +++?code=./functional_style/assets/qsort.scala&lang=scala&title=λ style with Scala
 @[](Declaration without low control, but varables exist)
 
-+++?code=./assets/qsort.kt&lang=kotlin&title=λ style with Kotlin
++++?code=./functional_style/assets/qsort.kt&lang=kotlin&title=λ style with Kotlin
 
-+++?code=./assets/qsort.pl&lang=perl&title=λ style with Perl
++++?code=./functional_style/assets/qsort.pl&lang=perl&title=λ style with Perl
 
-+++?code=./assets/qsort2.py&lang=perl&title=λ style with Python
++++?code=./functional_style/assets/qsort2.py&lang=perl&title=λ style with Python
 
-+++?code=./assets/.pl&lang=perl&title=λ style with Perl
-+++?code=./assets/.pl&lang=perl&title=λ style with Perl
++++?code=./functional_style/assets/.pl&lang=perl&title=λ style with Perl
++++?code=./functional_style/assets/.pl&lang=perl&title=λ style with Perl
 
 ---
 @title[λ style programming]
@@ -197,7 +197,7 @@ print $from_three->();  # 4
 +++
 @title[Blocking & Non-blocking]
 
-+++?code=./assets/ReactiveStreamsCallbackHell.java&lang=java&title=Callback hell 1
++++?code=./functional_style/assets/ReactiveStreamsCallbackHell.java&lang=java&title=Callback hell 1
 @[](Without declarative style of λ programming, callback hell is unavoidable)
 
 +++
