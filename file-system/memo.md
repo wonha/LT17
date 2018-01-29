@@ -358,12 +358,9 @@ int epoll_ctl(int epfd, ...);
 int epoll_wait(int epfd, ...)
 ```
 
-### kqueue
-epoll in BSD
-
-### overlapped IO, IOCP (Windows)
-
 ## Sync/Async Block/Non-block
+Aycnc : 
+
 ### For General
 - IBM
     - This material is old, Multiplexing can be a Non-blocking now
@@ -377,3 +374,74 @@ Async
 #### Sync/Async
 - return send/read function immediately
 #### Block/Non-block
+
+### kqueue (BSD)
+
+### APC, Overlapped I/O, Completion Routine, IOCP (I/O Completion Port) (Windows)
+Overlapped I/OAsync, Non-blocking I/O
+
+```c
+typedef struct _OVERLAPPED {
+  ULONG_PTR Internal;
+  ULONG_PTR InternalHigh;
+  union {
+    struct {
+      DWORD Offset;
+      DWORD OffsetHigh;
+    };
+    PVOID  Pointer;
+  };
+  HANDLE    hEvent;
+} OVERLAPPED, *LPOVERLAPPED;
+```
+
+Completion Routine
+```c
+BOOL WINAPI WriteFileEx(
+  _In_     HANDLE                          hFile,
+  _In_opt_ LPCVOID                         lpBuffer,
+  _In_     DWORD                           nNumberOfBytesToWrite,
+  _Inout_  LPOVERLAPPED                    lpOverlapped,
+  _In_     LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine
+);
+
+VOID CALLBACK FileIOCompletionRoutine(
+  _In_    DWORD        dwErrorCode,
+  _In_    DWORD        dwNumberOfBytesTransfered,
+  _Inout_ LPOVERLAPPED lpOverlapped
+);
+
+typedef VOID (WINAPI *LPOVERLAPPED_COMPLETION_ROUTINE)(
+    _In_    DWORD        dwErrorCode,
+    _In_    DWORD        dwNumberOfBytesTransfered,
+    _Inout_ LPOVERLAPPED lpOverlapped
+);
+```
+
+- Asyncchronous Procedure Call
+    - User-mode APC
+    - kernel-mode APC
+        1. Normal kernal-mode APC
+            - Completion Routine is implemented by this
+            - every thread has it's own APC Queue, and all the async function call and it's arguments are saved in this queue
+        1. Special kernal-mode APC
+```c
+DWORD QueueUserAPC (
+    PAPCFUNC pfnAPC,
+    HANDLE hThread,
+    ULONG_PTR dwData
+);
+```
+Even with blocking function, if `transfered data <= buffer size`, than the function does not blocked, and returned right after write data to write buffer
+
+
+I/O Completion Port (IOCP)
+IOCP VS epoll ?
+```c
+HANDLE WINAPI CreateIoCompletionPort(
+  _In_     HANDLE    FileHandle,
+  _In_opt_ HANDLE    ExistingCompletionPort,
+  _In_     ULONG_PTR CompletionKey,
+  _In_     DWORD     NumberOfConcurrentThreads
+);
+```
