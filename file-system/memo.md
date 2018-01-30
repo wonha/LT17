@@ -55,18 +55,13 @@ README.md | 11003
     - for example, inode number of root directory is always 2
 
 ### Link
-Hard link : [file name] n .. 1 [inode number]
+- Hard link : [file name] n .. 1 [inode number]
 - symlink is created to link directory or file in other mounted device
+- Symlink : 
+    - ino is meaningless in outside of Filesystem
+    - ino of synlink contains absolute/relative path for the file    
 
-Symlink : 
-    ino is meaningless in outside of Filesystem
-    ino of synlink contains absolute/relative path for the file    
 
-
-Process struct
-File struct
-Type : UFS, NFS
-inode : structure which holds information about file attribute (-, d, c, b, l, p, s, ... : only -, d, l create inode)
 
 
 ### VFS (Virtual File System)
@@ -116,7 +111,6 @@ typedef struct _PROCESS_INFORMATION {
   DWORD  dwThreadId;
 } PROCESS_INFORMATION, *LPPROCESS_INFORMATION;
 ```
-https://msdn.microsoft.com/en-us/library/windows/desktop/ms684873(v=vs.85).aspx
 
 ```c
 typedef struct _FILE_BASIC_INFO {
@@ -204,25 +198,14 @@ if (-r $filename and -w _) {
 ```
 
 ## File Access Mechanism Go
-os.File struct of Go VS file struct in C VS file struct that Sinoda thought
-what about Perl and Haskell ?
-os.Rename() can't move file between Drive in Widnows, since Win32 API does not support it
-
-Read learning perl file system, and it's implementation
-
-os.Stat() -> file existence
-os.path.exists() of Python : internally call method os.stat() which internally call syscall
-Perl ? 
-Haskell ?
-C stat(), access()
-
-os.File.Stat() returns os.FileInfo, and there is inode information and other information which depends on OS
-
-
-In Linux, you can't get information about file creation date for each file, since there is no API to get this although OS has thin information
+- os.Stat() -> file existence
+- os.path.exists() of Python : internally call method os.stat() which internally call syscall
+- C stat(), access()
+- os.File.Stat() returns os.FileInfo, and there is inode information and other information which depends on OS
+- In Linux, you can't get information about file creation date for each file, since there is no API to get this although OS has thin information
 
 ### nofity file modification
-When working on one file by using two different text editor, one should be recognize when the other perform write operation on file buffer or disk
+- When working on one file by using two different text editor, one should be recognize when the other perform write operation on file buffer or disk
 
 #### how to recognize modification ?
 1. Go to see perodically
@@ -235,6 +218,7 @@ When working on one file by using two different text editor, one should be recog
 $include <inotify.h>
 int inotify_init(void);
 ```
+
 -  Windows has its own API
 ```c
 ULONG SHChangeNotifyRegister(
