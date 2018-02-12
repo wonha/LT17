@@ -55,18 +55,13 @@ README.md | 11003
     - for example, inode number of root directory is always 2
 
 ### Link
-Hard link : [file name] n .. 1 [inode number]
+- Hard link : [file name] n .. 1 [inode number]
 - symlink is created to link directory or file in other mounted device
+- Symlink : 
+    - ino is meaningless in outside of Filesystem
+    - ino of synlink contains absolute/relative path for the file    
 
-Symlink : 
-    ino is meaningless in outside of Filesystem
-    ino of synlink contains absolute/relative path for the file    
 
-
-Process struct
-File struct
-Type : UFS, NFS
-inode : structure which holds information about file attribute (-, d, c, b, l, p, s, ... : only -, d, l create inode)
 
 
 ### VFS (Virtual File System)
@@ -116,7 +111,6 @@ typedef struct _PROCESS_INFORMATION {
   DWORD  dwThreadId;
 } PROCESS_INFORMATION, *LPPROCESS_INFORMATION;
 ```
-https://msdn.microsoft.com/en-us/library/windows/desktop/ms684873(v=vs.85).aspx
 
 ```c
 typedef struct _FILE_BASIC_INFO {
@@ -204,25 +198,14 @@ if (-r $filename and -w _) {
 ```
 
 ## File Access Mechanism Go
-os.File struct of Go VS file struct in C VS file struct that Sinoda thought
-what about Perl and Haskell ?
-os.Rename() can't move file between Drive in Widnows, since Win32 API does not support it
-
-Read learning perl file system, and it's implementation
-
-os.Stat() -> file existence
-os.path.exists() of Python : internally call method os.stat() which internally call syscall
-Perl ? 
-Haskell ?
-C stat(), access()
-
-os.File.Stat() returns os.FileInfo, and there is inode information and other information which depends on OS
-
-
-In Linux, you can't get information about file creation date for each file, since there is no API to get this although OS has thin information
+- os.Stat() -> file existence
+- os.path.exists() of Python : internally call method os.stat() which internally call syscall
+- C stat(), access()
+- os.File.Stat() returns os.FileInfo, and there is inode information and other information which depends on OS
+- In Linux, you can't get information about file creation date for each file, since there is no API to get this although OS has thin information
 
 ### nofity file modification
-When working on one file by using two different text editor, one should be recognize when the other perform write operation on file buffer or disk
+- When working on one file by using two different text editor, one should be recognize when the other perform write operation on file buffer or disk
 
 #### how to recognize modification ?
 1. Go to see perodically
@@ -235,6 +218,7 @@ When working on one file by using two different text editor, one should be recog
 $include <inotify.h>
 int inotify_init(void);
 ```
+
 -  Windows has its own API
 ```c
 ULONG SHChangeNotifyRegister(
@@ -271,7 +255,8 @@ int flock(int fd, int operation);
     - Multiple shared locks can co-exist.
     - If one or more shared locks already exist, exclusive locks cannot be obtained.
 
-
+- Advisory locking VS Mandatory locking
+    - https://gavv.github.io/blog/file-locks/#mandatory-locking
 
 ## File MMAP
 
@@ -304,80 +289,94 @@ HANDLE WINAPI CreateFileMapping(
 $ go get github.com/edsrzf/mmap-go ⏎
 ```
 
-## Multiplexing
+## Efficient I/O
 
 - Network I/O
 - File I/O
 
 - how to handle thread blocking caused by I/O ?
-    1. Multi process (fork) -- out of scope for this presentation
-    1. Multi thread -- out of scope for this presentation
-    1. I/O Multiplexing + event/signal (less context switching, less memory) -- let's talk about this now
-        1. select
-        1. poll
-        1. epoll
-        1. kqueue
-    1. Asynchronous + callback/event/signal -- will talk about this later
+    1. Thread-based way
+        1. Multi process (fork) -- out of scope for this presentation
+            1. Inefficient memory usage
+        1. Multi thread -- out of scope for this presentation
+            1. shared memory
+            2. smaller memory
+            - Lots of Web framework are implementing multi-threaded server architecture with synchronous-blocking I/O operations within it (thread-per-connection model).
+    1. Event Driven way (Multiplexing)
+        -  Instead of process/thread-per-connection, using a single thread to multiple connections.
+            - Event .. Event Queue .. Event Loop (dequeing event one by one) .. Event handler
+        - less context switching, less memory
+        - Event driven way is historically depended on the __asynchronou + non-blocking I/O operations__ and __event notification interfaces__ such as epoll or kqueue.
+            - Sync/Async/Blocking/Non-blocking
+                - shown below
+            - Event Notification interface
+                1. select
+                1. poll
+                1. epoll
+                1. kqueue
+    1. Combined way
+        - [refer this](http://berb.github.io/diploma-thesis/original/042_serverarch.html)
 
 - What is Multiplexing ?
 > Multiplexing (sometimes contracted to muxing) is a method by which multiple analog or digital signals are combined into one signal over a shared medium. The aim is to share a scarce resource - Wikipedia
 
+### Sync/Async Block/Non-block
+> In multithreaded computer programming, asynchronous method invocation (AMI), also known as asynchronous method calls or the asynchronous pattern is a design pattern in which the call site is not blocked while waiting for the called code to finish. - Wikipedia
+- Wikipedia thinks if a function is asynchronous, then it is non-block. Really ?
 
-### select
-```c
-#include <sys/select.h>
-int select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set *restrict errorfds, struct timeval *restrict timeout);
-// when socket received data
-// when socket can send data
-// when exception occur on socekt
-```
+- synchronized VS synchoronous
+-https://www.safaribooksonline.com/library/view/linux-system-programming/9781449341527/ch04.html
 
-Good : Many OS supports select()
-Bad : Need to send data(set of file descriptor) to kernal often
+- Distinguish by concern
+    - Synchronous/Asynchronous : Wheter caller have to care the response of the called API
+    - B
+    - locking/Non-blocking : Whether the caller can perform other task
+        - Return right after write/read to/from a buffer
+        - Even with blocking function, if `transfered data <= buffer size`, than the function sometimes does not blocked, and returned right after write data to write buffer
+- Distinguish by behavior
+    - Synchronous/Asynchronous : Asynchronous call run from other thread, mostly with callback
+    - Blocking/Non-blocking : Whether the called function immediately returns or not (after operate on buffer)
+- Distinguish by characteristic
+    - Synchronous/Asynchronous : How the data be processed ? 
+    - Blocking/Non-blocking : characteristic that caller cares
+- Nonblock한 함수를 호출한 후에도 busy-loop을 통해 계속 변화를 체크하는 동작의 경우 sync,
+Nonblock한 함수를 호출한 후 idle한 상태에 있다가 이벤트의 발생을 감지하여 Callback 같은 방식으로 처리하는 경우 async.
 
-### poll
-```c
-#include <poll.h>
-int poll(struct pollfd fds[], nfds_t nfds, int timeout);
-```
-almost same with select
-Good : Call system call less than select()
-
-select and poll is __level trigger__
-    - Level trigger : Register event again and again whenever there still remained data in read/write buffer(event is accumulated)
-epoll supports both __edge trigger and level trigger__
-    - Edge trigger : Register event onlhy once when data reached to read/write buffer
-
-### epoll (Linux)
-Good : select() called multiple times, hence application need to hand over same data to OS again and again
-
-```c
-#include <sys/select.h>
-int epoll_create(int size);
-int epoll_ctl(int epfd, ...);
-int epoll_wait(int epfd, ...)
-```
-
-## Sync/Async Block/Non-block
-Aycnc : 
-
-### For General
-- IBM
+- [IBM](https://www.ibm.com/developerworks/linux/library/l-async/)
     - This material is old, Multiplexing can be a Non-blocking now
-#### Sync/Async
-#### Block/Non-block
-### For Network
-#### Sync/Async
-Async
-#### Block/Non-block
-### For I/O
-#### Sync/Async
-- return send/read function immediately
-#### Block/Non-block
+        - Muxing I/O can be a Sync/Non-blocking
+- Different perspective
+    - https://www.slipp.net/questions/367
+    - https://www.slideshare.net/unitimes/sync-asyncblockingnonblockingio
+        - I don't think so... (page 5 out of 8, it says about Async/Blocking, but can't explain current JDBC with non-blocking code example)
 
-### kqueue (BSD)
+### Sync + Blocking
 
-### APC, Overlapped I/O, Completion Routine, IOCP (I/O Completion Port) (Windows)
+### Async + Non-blocking
+- Proactor Pattern provided by POSIX AIO interface and completition events instead of blocking event notification interface
+http://berb.github.io/diploma-thesis/original/042_serverarch.html
+
+### Sync + Non-blocking
+- Reactor Pattern + event notification interface
+http://berb.github.io/diploma-thesis/original/042_serverarch.html
+```java
+// This is just sample code :)
+Future future = asyncFileChannel.read(...);
+while(!future.isDone()) {
+    // do something ...
+}
+```
+
+### Async + Blocking
+- Can't think any benefitcial point of this combination.
+- Sometimes this happend unintentionally
+    - e.g, Current JDBC : While using Aync + Non-blocking, one of the function works as blocking, then the procudure can be a blocked asyncronous
+
+### Async + Non-blocking(Blocking) APIs
+
+#### kqueue (BSD)
+
+#### APC, Overlapped I/O, Completion Routine, IOCP (I/O Completion Port) (Windows)
 Overlapped I/OAsync, Non-blocking I/O
 
 ```c
@@ -432,7 +431,7 @@ DWORD QueueUserAPC (
     ULONG_PTR dwData
 );
 ```
-Even with blocking function, if `transfered data <= buffer size`, than the function does not blocked, and returned right after write data to write buffer
+Even with blocking function, if `transfered data <= buffer size`, than the function sometimes does not blocked, and returned right after write data to write buffer
 
 
 I/O Completion Port (IOCP)
@@ -445,3 +444,48 @@ HANDLE WINAPI CreateIoCompletionPort(
   _In_     DWORD     NumberOfConcurrentThreads
 );
 ```
+
+#### POSIX AIO (Linux)
+
+- [](https://homoefficio.github.io/2017/02/19/Blocking-NonBlocking-Synchronous-Asynchronous/)
+
+### Event Notification Interface(Multiplexing) - select
+- Sync/Blocking, Sync/Non-blocking, Async/Blocking
+```c
+#include <sys/select.h>
+int select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set *restrict errorfds, struct timeval *restrict timeout);
+// when socket received data
+// when socket can send data
+// when exception occur on socekt
+```
+
+Good : Many OS supports select()
+Bad : Need to send data(set of file descriptor) to kernal often
+
+### Event Notification Interface(Multiplexing) - poll
+- Sync/Blocking, Sync/Non-blocking, Async/Blocking
+```c
+#include <poll.h>
+int poll(struct pollfd fds[], nfds_t nfds, int timeout);
+```
+almost same with select
+Good : Call system call less than select()
+
+select and poll is __level trigger__
+    - Level trigger : Register event again and again whenever there still remained data in read/write buffer(event is accumulated)
+epoll supports both __edge trigger and level trigger__
+    - Edge trigger : Register event onlhy once when data reached to read/write buffer
+
+### Event Notification Interface (Multiplexing) - epoll (Linux)
+- Sync/Blocking , Sync/Non-blocking
+Good : select() called multiple times, hence application need to hand over same data to OS again and again
+
+```c
+#include <sys/select.h>
+int epoll_create(int size);
+int epoll_ctl(int epfd, ...);
+int epoll_wait(int epfd, ...)
+```
+
+### Event Notification Interface (Multiplexing) - WSAAsyncSelect (Windows)
+- Async/Non-blocking
