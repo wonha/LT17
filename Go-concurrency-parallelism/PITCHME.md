@@ -82,10 +82,15 @@ Finally, an application can also be both concurrent and parallel, in that it bot
 ---
 @title[Tools for parallel process in Go]
 
+__Tools for parallel processing in Go__
+
+1. goroutine
+1. channel
+1. select
+
 - Share information between parent and child
     1. Use function parameter
     1. Use Closure
-    1. goroutine
 
 +++?code=./Go-concurrency-parallelism/asset/goroutine.go&lang=go&title=goroutine
 
@@ -96,18 +101,15 @@ Finally, an application can also be both concurrent and parallel, in that it bot
 - internally creates function parameter and pass reference/pointer of used value
     - this cuases unexpected result as below
 
-+++
-@title[channel]
++++?code=./Go-concurrency-parallelism/asset/channel.go&lang=go&title=channel
 
 - Queue, FIFO, PubSub model(without callback)
 
-+++
-@title[unbuffered channel]
++++?code=./Go-concurrency-parallelism/asset/channel-unbuffered.go&lang=go&title=channel-unbuffered
 
 - Both sender and receiver are blocked until for each other
 
-+++
-@title[buffered channel]
++++?code=./Go-concurrency-parallelism/asset/channel-buffered.go&lang=go&title=channel-buffered
 
 +++
 @title[select]
@@ -118,6 +120,8 @@ __select syscall__
 #include <sys/select.h>
 int select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set *restrict errorfds, struct timeval *restrict timeout);
 ```
+
++++?code=./Go-concurrency-parallelism/asset/select.go&lang=go&title=select
 
 ---
 @title[Concurrency & Parallelism pattern]
@@ -177,8 +181,8 @@ $ go run -race
 
 functionality | PThread API | sync package
 --- | --- | ---
-Lock | pthread_mutex_* | sync.Mutex
-RW Lock | pthread_rwlock_* | sync.RWMutx
+Lock | pthread\_mutex\_* | sync.Mutex
+RW Lock | pthread\_rwlock\_* | sync.RWMutx
 wait for group of thread | N/A | sync.WaitGroup
 execute once | pthread_once | sync.Once
 object pool | N/A | sync.Pool
