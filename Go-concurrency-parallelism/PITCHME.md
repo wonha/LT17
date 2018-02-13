@@ -67,34 +67,7 @@ Finally, an application can also be both concurrent and parallel, in that it bot
 ---
 @title[Tools for parallel process in Go]
 
-+++?code=./title[goroutine]
-
-```go
-package main
-
-import (
-    "fmt"
-    "time"
-)
-
-func say(s string) {
-    for i := 0; i < 10; i++ {
-        fmt.Println(s, "***", i)
-    }
-}
-
-func main() {
-    // run function synchronously
-    say("Sync")
-
-    // run function asynchronously
-    go say("Async1")
-    go say("Async2")
-    go say("Async3")
-
-    time.Sleep(time.Second * 3)
-}
-```
++++?code=./Go-concurrency-parallelism/asset/goroutine.go&lang=go&title=goroutine
 
 +++
 @title[goroutine-anonymous]
@@ -104,69 +77,12 @@ func main() {
     1. Use Closure
     1. goroutine
 
-```go
-package main
-
-import (
-    "fmt"
-    "sync"
-)
-
-func main() {
-    var wait sync.WaitGroup
-    wait.Add(3)
-
-    // goroutine with anonymous function
-    go func() {
-        defer wait.Done()
-        fmt.Println("Hello")
-    }()
-
-    // pass arguments to anonymous function
-    go func(msg string) {
-        defer wait.Done()
-        fmt.Println(msg)
-    }("Hi")
-
-    str := "sample string"
-    go func(msg string) {
-        fmt.Println("shared information: ", str)
-    }
-
-    wait.Wait()
-}
-```
++++?code=./Go-concurrency-parallelism/asset/goroutine-anonymous.go&lang=go&title=goroutine-anonymous
 - `sync.WaitGroup` and `CyclicBarrier` in Java
 
-
-+++
-@title[goroutine-closure]
-
++++?code=./Go-concurrency-parallelism/asset/goroutine-closure.go&lang=go&title=goroutine-closure
 - internally creates function parameter and pass reference/pointer of used value
     - this cuases unexpected result as below
-
-```go
-package main
- 
-import (
-    "fmt"
-    "time"
-)
- 
-func main() {
-    tasks := []string{
-        "cmake ..",
-        "cmake . --build Release",
-        "cpack",
-    }
-    for _, task := range tasks {
-        go func() {
-            fmt.Println(task)
-        }()
-    }
-    time.Sleep(time.Second)
-}
-```
 
 
 +++
@@ -244,71 +160,7 @@ wait for group of thread | N/A | sync.WaitGroup
 execute once | pthread_once | sync.Once
 object pool | N/A | sync.Pool
 
-+++
-@title[mutx]
++++?code=./Go-concurrency-parallelism/asset/mutex.go&lang=go&title=mutex
 
-```go
-package main
- 
-import (
-    "fmt"
-    "sync"
-)
- 
-var id int
- 
-func generateId(mutex *sync.Mutex) int {
-    // Lock()/Unlock()をペアで呼び出してロックする
-    mutex.Lock()
-    id++
-    mutex.Unlock()
-    return id
-}
- 
-func main() {
-    // sync.Mutex構造体の変数宣言
-    // 次の宣言をしてもポインタ型になるだけで正常に動作します
-    // mutex := new(sync.Mutex)
-    var mutex sync.Mutex
- 
-    for i := 0; i < 100; i++ {
-        go func() {
-            fmt.Printf("id: %d\n", generateId(&mutex))
-        }()
-    }
-}
-
-```
-
-+++
-@title[sync.Pool]
-
++++?code=./Go-concurrency-parallelism/asset/pool.go&lang=go&title=sync.Pool
 - Shared struct within goroutine
-
-```go
-package main
- 
-import (
-    "fmt"
-    "sync"
-)
- 
-func main() {
-    // Poolを作成。Newで新規作成時のコードを実装
-    var count int
-    pool := sync.Pool{
-        New: func() interface{} {
-            count++
-            return fmt.Sprintf("created: %d", count)
-        },
-    }
- 
-    // 追加した要素から受け取れる
-    // プールが空だと新規作成
-    pool.Put("manualy added: 1")
-    pool.Put("manualy added: 2")
-    fmt.Println(pool.Get())
-    fmt.Println(pool.Get())
-    fmt.Println(pool.Get()) // これは新規作成
-}
-```
