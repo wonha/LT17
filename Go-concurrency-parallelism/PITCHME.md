@@ -21,7 +21,7 @@ wonhashin26@gmail.com
 ---
 @title[Concurrency VS Parallelism]
 
-[Jenkov](http://tutorials.jenkov.com/java-concurrency/concurrency-vs-parallelism.html)
+- [Jenkov](http://tutorials.jenkov.com/java-concurrency/concurrency-vs-parallelism.html)
 
 +++
 @title[Concurrency]
