@@ -21,10 +21,12 @@ wonhashin26@gmail.com
 ---
 @title[Concurrency VS Parallelism]
 
-- [Jenkov](http://tutorials.jenkov.com/java-concurrency/concurrency-vs-parallelism.html)
+- [Concurrency VS Parallelism](http://tutorials.jenkov.com/java-concurrency/concurrency-vs-parallelism.html)
 
 +++
 @title[Concurrency]
+
+__Concurrency__
 
 - concurrency is related to how an application handles multiple tasks it works on. An application may process one task at at time (sequentially) or work on multiple tasks at the same time (concurrently).
 - Application is making progress on __more than one task__ at the same time
@@ -33,11 +35,15 @@ wonhashin26@gmail.com
 +++
 @title[Paralellism]
 
+__Parallelism__
+
 - Parallelism on the other hand, is related to how an application handles each individual task. An application may process the task serially from start to end, or split the task up into subtasks which can be completed in parallel.
 - Application splits its tasks up into smaller subtasks which can be processed in parallel, for instance on multiple CPUs at the exact same time.
 
 +++
 @title[Concurrency VS Parallelism]
+
+__Concurrency VS Parallelism__
 
 In programming, concurrency is the composition of independently executing processes, while parallelism is the simultaneous execution of (possibly related) computations. Concurrency is about dealing with lots of things at once. Parallelism is about doing lots of things at once.
 
@@ -47,36 +53,41 @@ In programming, concurrency is the composition of independently executing proces
 +++
 @title[Cuncurrent & not Parallel]
 
+__Cuncurrent & not Parallel__
+
 - An application processes more than one task at the same time, but the tasks are not broken down into subtasks.
 - Some of the asynchronous computation (`goroutine` in Go,`Future` in Java)
 
 +++
 @title[not Cuncurrent & Parallel]
 
-An application can also be parallel but not concurrent. This means that the application only works on one task at a time, and this task is broken down into subtasks which can be processed in parallel.
+__not Cuncurrent & Parallel__
+
+- An application can also be parallel but not concurrent. This means that the application only works on one task at a time, and this task is broken down into subtasks which can be processed in parallel.
 
 +++
 @title[not Cuncurrent & not Parallel]
 
-Additionally, an application can be neither concurrent nor parallel. This means that it works on only one task at a time, and the task is never broken down into subtasks for parallel execution.
+__not Cuncurrent & not Parallel__
+
+- Additionally, an application can be neither concurrent nor parallel. This means that it works on only one task at a time, and the task is never broken down into subtasks for parallel execution.
 
 +++
 @title[Cuncurrent & Parallel]
+
+__Cuncurrent & Parallel__
 
 Finally, an application can also be both concurrent and parallel, in that it both works on multiple tasks at the same time, and also breaks each task down into subtasks for parallel execution. However, some of the benefits of concurrency and parallelism may be lost in this scenario, as the CPUs in the computer are already kept reasonably busy with either concurrency or parallelism alone. Combining it may lead to only a small performance gain or even performance loss. Make sure you analyze and measure before you adopt a concurrent parallel model blindly.
 
 ---
 @title[Tools for parallel process in Go]
 
-+++?code=./Go-concurrency-parallelism/asset/goroutine.go&lang=go&title=goroutine
-
-+++
-@title[goroutine-anonymous]
-
 - Share information between parent and child
     1. Use function parameter
     1. Use Closure
     1. goroutine
+
++++?code=./Go-concurrency-parallelism/asset/goroutine.go&lang=go&title=goroutine
 
 +++?code=./Go-concurrency-parallelism/asset/goroutine-anonymous.go&lang=go&title=goroutine-anonymous
 - `sync.WaitGroup` and `CyclicBarrier` in Java
@@ -84,7 +95,6 @@ Finally, an application can also be both concurrent and parallel, in that it bot
 +++?code=./Go-concurrency-parallelism/asset/goroutine-closure.go&lang=go&title=goroutine-closure
 - internally creates function parameter and pass reference/pointer of used value
     - this cuases unexpected result as below
-
 
 +++
 @title[channel]
@@ -102,6 +112,8 @@ Finally, an application can also be both concurrent and parallel, in that it bot
 +++
 @title[select]
 
+__select syscall__
+
 ```c
 #include <sys/select.h>
 int select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set *restrict errorfds, struct timeval *restrict timeout);
@@ -109,6 +121,8 @@ int select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set
 
 ---
 @title[Concurrency & Parallelism pattern]
+
+__Concurrency & Parallelism pattern__
 
 - I/O bound process
     - Event-driven
@@ -124,6 +138,8 @@ int select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set
 +++
 @title[go runtime]
 
+__go runtime__
+
 - M (Machine) : CPU
 - P (Process) : Schedular(run queue)
 - G (goroutine) : Process
@@ -131,11 +147,15 @@ int select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set
 ---
 @title[Go package for parallelism]
 
+__ Go package for parallelism__
+
 1. runtime
 2. sync
 
 +++
 @title[runtime package]
+
+__runtime package__
 
 - Although goroutine is on user thread, Go have package to operate on OS thread directly (after goroutine user thread has mapped to OS thread)
 1. runtime.LockOSThread() / runtime.UnlockOSThread()
@@ -144,6 +164,8 @@ int select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set
 
 +++
 @title[Race Detector]
+
+__Race Detector__
 
 ```bash
 $ go build -race
