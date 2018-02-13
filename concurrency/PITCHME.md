@@ -67,7 +67,8 @@ Finally, an application can also be both concurrent and parallel, in that it bot
 ---
 @title[Tools for parallel process in Go]
 
-+++?code=./title[goroutine]
++++
+@title[goroutine]
 
 ```go
 package main
