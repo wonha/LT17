@@ -15,7 +15,7 @@ wonhashin26@gmail.com
     - Event-driven + parallelism |
     - Multi-thread |
 - Go package for parallism |
-  - Go runtime pacakage
+  - Go runtime package
   - Go sync package
 
 ---
@@ -51,31 +51,31 @@ In programming, concurrency is the composition of independently executing proces
 - Task requires waiting from multiple event (I/O blocking) : Concurrency (Parallelism)
 
 +++
-@title[Cuncurrent & not Parallel]
+@title[Concurrent & not Parallel]
 
-__Cuncurrent & not Parallel__
+__Concurrent & not Parallel__
 
 - An application processes more than one task at the same time, but the tasks are not broken down into subtasks.
 - Some of the asynchronous computation (`goroutine` in Go,`Future` in Java)
 
 +++
-@title[not Cuncurrent & Parallel]
+@title[not Concurrent & Parallel]
 
-__not Cuncurrent & Parallel__
+__not Concurrent & Parallel__
 
 - An application can also be parallel but not concurrent. This means that the application only works on one task at a time, and this task is broken down into subtasks which can be processed in parallel.
 
 +++
-@title[not Cuncurrent & not Parallel]
+@title[not Concurrent & not Parallel]
 
-__not Cuncurrent & not Parallel__
+__not Concurrent & not Parallel__
 
 - Additionally, an application can be neither concurrent nor parallel. This means that it works on only one task at a time, and the task is never broken down into subtasks for parallel execution.
 
 +++
-@title[Cuncurrent & Parallel]
+@title[Concurrent & Parallel]
 
-__Cuncurrent & Parallel__
+__Concurrent & Parallel__
 
 Finally, an application can also be both concurrent and parallel, in that it both works on multiple tasks at the same time, and also breaks each task down into subtasks for parallel execution. However, some of the benefits of concurrency and parallelism may be lost in this scenario, as the CPUs in the computer are already kept reasonably busy with either concurrency or parallelism alone. Combining it may lead to only a small performance gain or even performance loss. Make sure you analyze and measure before you adopt a concurrent parallel model blindly.
 
@@ -99,7 +99,7 @@ __Tools for parallel processing in Go__
 
 +++?code=./Go-concurrency-parallelism/asset/goroutine-closure.go&lang=go&title=goroutine-closure
 - internally creates function parameter and pass reference/pointer of used value
-    - this cuases unexpected result as below
+    - this causes unexpected result as below
 
 +++?code=./Go-concurrency-parallelism/asset/channel.go&lang=go&title=channel
 
