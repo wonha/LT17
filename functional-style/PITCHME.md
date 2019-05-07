@@ -74,7 +74,7 @@ __Purely λ programming__
 <!-- research modifying policy of free variable in Perl, Python, Go, Java(Lambda) -->
 <!-- In Haskell, free variable is actually a constant, there is no 'variable' in Haskell -->
 <!-- In Perl, all the closures has copy of free variable's value within itself -->
-<!-- In Java, all the closures(lambdas) shares one free variable, so modifying that free variable is restricted. Only effective final varibale can be used
+<!-- In Java, all the closures(lambdas) shares one free variable, so modifying that free variable is restricted. Only effective final variable can be used
 <!-- In Python, -->
 <!-- In Go, -->
 
@@ -231,7 +231,7 @@ __Declaration on Reactive Programming__<br/>
 
 +++
 @title[Concurrency & Parallelism]
-data pallelism / task
+data parallelism / task
 jenkov
 google image
 
@@ -265,7 +265,7 @@ Functional Reactive Programming (FRP) !
 @title[λ style programming with Multitasking]
 
 - Declarative way |
-- Reduce Side effeuct |
+- Reduce Side effect |
 
 +++
 @title[Concurrency & Parallelism]

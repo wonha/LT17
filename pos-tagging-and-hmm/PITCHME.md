@@ -18,7 +18,7 @@ wonhashin26@gmail.com
 - Natural Language Processing
     1. Natural Language Understanding/Analysis
         1. keywork detection
-        1. understanding syntactic structure or sematic interpretation of sentences
+        1. understanding syntactic structure or semantic interpretation of sentences
     1. Natural Language Generation
         1. translation
         1. response of system (dialogue system) 
@@ -85,7 +85,7 @@ Required Knowledge for Syntactic Analysis
 
 - Formal Language : Set of strings
 - Formal Model : Definition of language 
-- Fromal Grammer : Set of production rules
+- Formal Grammer : Set of production rules
 
 +++
 
@@ -105,7 +105,7 @@ Formal Models(Chompsky Hierarchy)
 
 - Formal model and Languages
     - : Given S -> model G - > L(G)
-- Differnece between formal model and language model ?
+- Difference between formal model and language model ?
     - [Language Model (refer p.16)](http://www.phontron.com/slides/nlp-programming-en-01-unigramlm.pdf)
 
 
@@ -133,17 +133,17 @@ _More practical grammers like Unification Grammer (grammer using feature structu
 Parsing Algorithms :
   - Top-down algorithm
   - Bottom-up algorithm
-    CKY(O(n3)), Chart parsing(O(n3)), Recurisve transition network...
+    CKY(O(n3)), Chart parsing(O(n3)), Recursive transition network...
 
 ---
 @title[Morphological Analysis - word segmentation]
 
-Morpheme : minumum linguistic unit
+Morpheme : minimum linguistic unit
     - word : stem + affix (e.g, play-ing)
 
 +++
 
-Word Dictionary cantains...
+Word Dictionary contains...
     - POS
     - Pronunciation
     - Sense

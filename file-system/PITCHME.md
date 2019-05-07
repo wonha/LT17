@@ -40,7 +40,7 @@ OS using inode put file attribute to inode, so directory entry get shorter
 
 System recognize Storage as sector (Array of byte size of 512B to 4KiB), so actual file contents are stored through sector
 sector : physical unit of device
-block : locigal unit in Filesystem
+block : logical unit in Filesystem
 page : logical unit in memory
 
 +++
@@ -51,7 +51,7 @@ page : logical unit in memory
     - temporal locality
     - sequential locality
 - Same paging mechanism is used to manage process
-- (To manage this caching directly, refer __mamory mapped file__)
+- (To manage this caching directly, refer __memory mapped file__)
 
 - swapping swap file (paging file) VS context switching
 - swapping swap file : (mainly) memory - disk
@@ -104,7 +104,7 @@ README.md | 11003
 +++
 @title[VFS]
 
-- One stroage can have multiple FS. Or, VFS
+- One storage can have multiple FS. Or, VFS
     - FS on the top of other FS is called __mounted volume__, such as disk partition, ssd, CD-ROM
     - Virtual FS
     - Journaling FS : FS which keep consistency between inode information and actual file contents in sector even at system error
@@ -267,7 +267,7 @@ if (-r $filename and -w _) {
 +++
 @title[how to recognize modification?]
 
-1. Go to see perodically
+1. Go to see periodically
     - we can use `stat(2)` for this
 1. Get notification (event) -- we will see this
 
@@ -337,9 +337,9 @@ int flock(int fd, int operation);
     1. Aside from any page fault (cache miss), there will be no syscall calling or context switching(swapping file)
     1. Multiple process can share this memory space
     1. COW
-- Disadvange
+- Disadvantage
     1. MMAP is available with unit of page. For example, when you set page size to 4 KiB, a 7 byte mapping wastes 4,089 bytes. 
-    1. memory space fragment can be occured, when various size of mapping happens frequently
+    1. memory space fragment can be occurred, when various size of mapping happens frequently
     1. When just reading file with sequential access from front to end, performance will not increased
 
 +++
@@ -394,7 +394,7 @@ $ go get github.com/edsrzf/mmap-go ⏎
     1. Thread-based way
     1. Event Driven way (Multiplexing)
         -  Instead of process/thread-per-connection, using a single thread to multiple connections.
-            - Event .. Event Queue .. Event Loop (dequeing event one by one) .. Event handler
+            - Event .. Event Queue .. Event Loop (dequeuing event one by one) .. Event handler
         - less context switching, less memory
         - Event driven way is historically depended on the __asynchronou + non-blocking I/O operations__ and __event notification interfaces__ such as epoll or kqueue.
             - Sync/Async/Blocking/Non-blocking
@@ -429,7 +429,7 @@ $ go get github.com/edsrzf/mmap-go ⏎
 @title[concern]
 
 - Distinguish by concern
-    - Synchronous/Asynchronous : Wheter caller have to care the response of the called API
+    - Synchronous/Asynchronous : Whether caller have to care the response of the called API
     - B
     - locking/Non-blocking : Whether the caller can perform other task
         - Return right after write/read to/from a buffer
@@ -486,7 +486,7 @@ while(!future.isDone()) {
 @title[]
 
 ### Async + Blocking
-- Can't think any benefitcial point of this combination.
+- Can't think any beneficial point of this combination.
 - Sometimes this happend unintentionally
     - e.g, Current JDBC : While using Aync + Non-blocking, one of the function works as blocking, then the procudure can be a blocked asyncronous
 
